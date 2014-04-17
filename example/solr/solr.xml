@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<solr persistent="true">
+  <cores defaultCoreName="core_en" host="${host:}" adminPath="/admin/cores" zkClientTimeout="${zkClientTimeout:15000}" hostPort="${jetty.port:8983}" hostContext="${hostContext:solr}">
+    <core loadOnStartup="true" instanceDir="core_es/" transient="false" name="core_es" collection="core_es"/>
+    <core loadOnStartup="true" instanceDir="core_en/" transient="false" name="core_en" collection="core_en"/>
+    <core loadOnStartup="true" instanceDir="core_fr/" transient="false" name="core_fr" collection="core_fr"/>
+    <core loadOnStartup="true" instanceDir="core_it/" transient="false" name="core_it" collection="core_it"/>
+    <core loadOnStartup="true" instanceDir="core_ca/" transient="false" name="core_ca" collection="core_ca"/>
+    <core loadOnStartup="true" instanceDir="core_de/" transient="false" name="core_de" collection="core_de"/>
+    <core loadOnStartup="true" instanceDir="core_mx/" transient="false" name="core_mx" collection="core_mx"/>
+    <core loadOnStartup="true" instanceDir="core_pt/" transient="false" name="core_pt" collection="core_pt"/>
+    <core loadOnStartup="true" instanceDir="core_ja/" transient="false" name="core_ja" collection="core_ja"/>
+    <core loadOnStartup="true" instanceDir="core_zh/" transient="false" name="core_zh" collection="core_zh"/>
+    <core loadOnStartup="true" instanceDir="core_ru/" transient="false" name="core_ru" collection="core_ru"/>
+    <core loadOnStartup="true" instanceDir="core_tr/" transient="false" name="core_tr" collection="core_tr"/>
+  </cores>
+</solr>

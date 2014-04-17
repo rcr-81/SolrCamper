@@ -1,0 +1,32 @@
+<dataConfig>
+    <dataSource name="ds-1"
+    			type="JdbcDataSource" 
+				driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost/integra_solr_camper" 
+				user="root" 
+				password="contrasena"/>
+
+    <dataSource name="ds-2"
+    			type="JdbcDataSource" 
+				driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost/solr_camper" 
+				user="root" 
+				password="contrasena"/>
+
+	<document>
+		<entity name="product"
+				dataSource="ds-1"
+     			query="SELECT *, 'product' AS type FROM vi_search WHERE profile_id = 'mx'"
+                deltaQuery="SELECT *, 'product' AS type FROM vi_search WHERE profile_id = 'mx'"/>
+        
+		<entity name="content"
+				dataSource="ds-2"
+				transformer="HTMLStripTransformer,RegexTransformer"
+     			query="SELECT nombre AS titulo, descripcion AS text1, id AS product_id, profile_id, type FROM contenido WHERE profile_id = 'mx'"
+                deltaQuery="SELECT * FROM contenido WHERE profile_id = 'mx'">
+
+				<field column="text1" name="text1" stripHTML="true" regex="(\s){2,}" replaceWith=" " />
+		</entity>                
+        
+    </document>
+</dataConfig>

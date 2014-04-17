@@ -1,0 +1,217 @@
+<dataConfig>
+	<!-- Contenido Drupal-->
+    <dataSource name="ds-1"
+				type="JdbcDataSource" 
+				driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://172.22.52.182/camper_dp" 
+				user="camper_dp" 
+				password="sajyt3c2s"/>
+
+	<!-- Productos eshop -->
+    <dataSource name="ds-2"
+				type="JdbcDataSource" 
+				driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://172.22.52.182/webb2c" 
+				user="camper_dp_ro" 
+				password="hbajs820pas"/>
+
+    <document>
+		<entity name="content1"
+				dataSource="ds-1"
+				transformer="HTMLStripTransformer,RegexTransformer"
+				pk="product_id"				
+                query="select distinct CONCAT(n.nid,'-',ccf.field_country_code_value) AS product_id, header.field_header_value AS titulo,
+						concat_ws('  ',  
+											concat_ws('  ', 
+																title1.field_title_content_1_value,
+																title2.field_title_content_2_value,
+																title3.field_title_content_3_value,
+																title4.field_title_content_4_value,
+																title5.field_title_content_5_value,
+																title6.field_title_content_6_value,
+																title7.field_title_content_7_value,
+																title8.field_title_content_8_value,
+																title9.field_title_content_9_value,
+																title10.field_title_content_10_value
+											) ,
+											concat_ws(' ', 
+																desc1.field_desc_content_1_value,
+																desc2.field_desc_content_2_value,
+																desc3.field_desc_content_3_value,
+																desc4.field_desc_content_4_value,
+																desc5.field_desc_content_5_value,
+																desc6.field_desc_content_6_value,
+																desc7.field_desc_content_7_value,
+																desc8.field_desc_content_8_value,
+																desc9.field_desc_content_9_value,
+																desc10.field_desc_content_10_value
+												),
+												concat_ws(' ', 
+																module1.body_value,
+																module2.body_value,
+																module3.body_value,
+																module4.body_value,
+																module5.body_value,
+																module6.body_value,
+																module7.body_value,
+																module8.body_value,
+																module9.body_value,
+																module10.body_value
+												) 
+						) as text1, n.language AS profile_id, ccf.field_country_code_value as country_id, url.alias as text2, 'content' as type,CONCAT('sites/default/files/', file.filename) as propiedades
+						
+						from node n
+						
+						inner join field_data_field_country_group cgf on n.nid=cgf.entity_id
+						inner join taxonomy_term_hierarchy tth on cgf.field_country_group_tid= tth.tid or cgf.field_country_group_tid = tth.parent
+						inner join taxonomy_term_data cgtd on tth.parent=cgtd.tid
+						inner join taxonomy_term_data ctd on tth.tid=ctd.tid
+						inner join field_data_field_country_code ccf on ctd.tid=ccf.entity_id
+						
+						inner join field_data_field_header header on n.nid=header.entity_id
+
+						left join field_data_field_url_image_solr image on n.nid=image.entity_id
+						left join file_managed file on image.field_url_image_solr_fid=file.fid
+						
+						left join field_data_field_module_select select1 on n.nid=select1.entity_id left join field_data_body module1 on select1.field_module_select_value=module1.entity_id and module1.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_2 select2 on n.nid=select2.entity_id left join field_data_body module2 on select2.field_module_select_2_value=module2.entity_id and module2.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_3 select3 on n.nid=select3.entity_id left join field_data_body module3 on select3.field_module_select_3_value=module3.entity_id and module3.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_4 select4 on n.nid=select4.entity_id left join field_data_body module4 on select4.field_module_select_4_value=module4.entity_id and module4.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_5 select5 on n.nid=select5.entity_id left join field_data_body module5 on select5.field_module_select_5_value=module5.entity_id and module5.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_6 select6 on n.nid=select6.entity_id left join field_data_body module6 on select6.field_module_select_6_value=module6.entity_id and module6.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_7 select7 on n.nid=select7.entity_id left join field_data_body module7 on select7.field_module_select_7_value=module7.entity_id and module7.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_8 select8 on n.nid=select8.entity_id left join field_data_body module8 on select8.field_module_select_8_value=module8.entity_id and module8.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_9 select9 on n.nid=select9.entity_id left join field_data_body module9 on select9.field_module_select_9_value=module9.entity_id and module9.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						left join field_data_field_module_select_10 select10 on n.nid=select10.entity_id left join field_data_body module10 on select10.field_module_select_10_value=module10.entity_id and module10.bundle in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						
+						left join field_data_field_title_content_1 title1 on n.nid=title1.entity_id
+						left join field_data_field_title_content_2 title2 on n.nid=title2.entity_id
+						left join field_data_field_title_content_3 title3 on n.nid=title3.entity_id
+						left join field_data_field_title_content_4 title4 on n.nid=title4.entity_id
+						left join field_data_field_title_content_5 title5 on n.nid=title5.entity_id
+						left join field_data_field_title_content_6 title6 on n.nid=title6.entity_id
+						left join field_data_field_title_content_7 title7 on n.nid=title7.entity_id
+						left join field_data_field_title_content_8 title8 on n.nid=title8.entity_id
+						left join field_data_field_title_content_9 title9 on n.nid=title9.entity_id
+						left join field_data_field_title_content_10 title10 on n.nid=title10.entity_id
+						
+						left join field_data_field_desc_content_1 desc1 on n.nid=desc1.entity_id
+						left join field_data_field_desc_content_2 desc2 on n.nid=desc2.entity_id
+						left join field_data_field_desc_content_3 desc3 on n.nid=desc3.entity_id
+						left join field_data_field_desc_content_4 desc4 on n.nid=desc4.entity_id
+						left join field_data_field_desc_content_5 desc5 on n.nid=desc5.entity_id
+						left join field_data_field_desc_content_6 desc6 on n.nid=desc6.entity_id
+						left join field_data_field_desc_content_7 desc7 on n.nid=desc7.entity_id
+						left join field_data_field_desc_content_8 desc8 on n.nid=desc8.entity_id
+						left join field_data_field_desc_content_9 desc9 on n.nid=desc9.entity_id
+						left join field_data_field_desc_content_10 desc10 on n.nid=desc10.entity_id
+						
+						inner join url_alias url on url.source = CONCAT('node/', n.nid)
+						
+						where n.type='det0x' 
+						and n.status=1
+						and n.language = 'zh'">
+		
+				<field column="titulo" name="titulo" stripHTML="true" />
+				<field column="text1" name="text1" stripHTML="true" regex="(\s){2,}" replaceWith=" " />
+				<field column="text2" name="text2" stripHTML="true" />
+				<field column="propiedades" name="propiedades" stripHTML="true" />
+						
+				<field column="aux_titulo" name="aux_titulo" stripHTML="true" />
+				<field column="aux_text1" name="aux_text1" stripHTML="true" regex="(\s){2,}" replaceWith=" " />
+				<field column="aux_text2" name="aux_text2" stripHTML="true" />
+				<field column="aux_propiedades" name="aux_propiedades" stripHTML="true" />
+		</entity>
+
+		<entity name="content2"
+				dataSource="ds-1"
+				transformer="HTMLStripTransformer,RegexTransformer"
+				pk="product_id"
+                query="select distinct CONCAT(n.nid,'-',n2.nid,'-',ccf.field_country_code_value) as product_id,
+						header2.field_header_value as titulo,
+						concat_ws(' ',
+								header.field_header_value,
+								link.field_title_link_title,
+								body.body_value,
+								content.field_desc_content_1_value
+						) as text1, n2.language as profile_id, ccf.field_country_code_value as country_id, url.alias as text2, 'content' as type,CONCAT('sites/default/files/', file.filename) as propiedades
+						
+						from node n
+						left join field_data_field_header header on n.nid=header.entity_id
+						left join field_data_field_title_link link on n.nid=link.entity_id
+						left join field_data_body body on n.nid=body.entity_id
+						left join field_data_field_desc_content_1 content on n.nid=content.entity_id
+						
+						,node n2
+						inner join field_data_field_country_group cgf on n2.nid=cgf.entity_id
+						inner join taxonomy_term_hierarchy tth on cgf.field_country_group_tid= tth.tid or cgf.field_country_group_tid = tth.parent
+						inner join taxonomy_term_data cgtd on tth.parent=cgtd.tid
+						inner join taxonomy_term_data ctd on tth.tid=ctd.tid
+						inner join field_data_field_country_code ccf on ctd.tid=ccf.entity_id
+						inner join field_data_field_header header2 on n2.nid=header2.entity_id
+						left join field_data_field_url_image_solr image on n2.nid=image.entity_id
+						left join file_managed file on image.field_url_image_solr_fid=file.fid
+						inner join field_data_field_layout layout on n2.nid=layout.entity_id
+						inner join layoutmanager_mod_disposition disposition on layout.field_layout_layout=disposition.lid and n2.nid=disposition.nid
+						inner join url_alias url on url.source = CONCAT('node/', n2.nid)
+						
+						where n.type in ('html_module', 'image_and_text_module', 'imghighlight_module','text_module')
+						and n.status=1 
+						and n2.type='dist0x'
+						and n2.status=1
+						and  LOCATE(CONCAT('&quot;',n.nid,'&quot;'),disposition.data) > 0
+						and n2.language = 'zh'">
+		
+				<field column="titulo" name="titulo" stripHTML="true" />
+				<field column="text1" name="text1" stripHTML="true" regex="(\s){2,}" replaceWith=" " />
+				<field column="text2" name="text2" stripHTML="true" />
+				<field column="propiedades" name="propiedades" stripHTML="true" />
+						
+				<field column="aux_titulo" name="aux_titulo" stripHTML="true" />
+				<field column="aux_text1" name="aux_text1" stripHTML="true" regex="(\s){2,}" replaceWith=" "/>
+				<field column="aux_text2" name="aux_text2" stripHTML="true" />
+				<field column="aux_propiedades" name="aux_propiedades" stripHTML="true" />
+		</entity>
+
+		<entity name="content3"
+				dataSource="ds-1"
+				transformer="HTMLStripTransformer,RegexTransformer"
+				pk="product_id"
+                query="select CONCAT(n.nid,'-',ccf.field_country_code_value) as product_id, header.field_header_value as titulo, body.body_value as text1, n.language as profile_id, ccf.field_country_code_value as country_id, url.alias as text2,'content' as type,CONCAT('sites/default/files/', file.filename) as propiedades
+						
+						from node n
+						inner join field_data_field_country_group cgf on n.nid=cgf.entity_id
+						inner join taxonomy_term_hierarchy tth on cgf.field_country_group_tid= tth.tid or cgf.field_country_group_tid = tth.parent
+						inner join taxonomy_term_data cgtd on tth.parent=cgtd.tid
+						inner join taxonomy_term_data ctd on tth.tid=ctd.tid
+						inner join field_data_field_country_code ccf on ctd.tid=ccf.entity_id
+						inner join field_data_field_header header on n.nid=header.entity_id
+						left join field_data_field_url_image_solr image on n.nid=image.entity_id
+						left join file_managed file on image.field_url_image_solr_fid=file.fid
+						inner join field_data_body body on n.nid=body.entity_id
+						inner join url_alias url on url.source = CONCAT('node/', n.nid)
+						
+						where n.type='page' 
+						and n.status=1
+						and n.language = 'zh'">
+
+				<field column="titulo" name="titulo" stripHTML="true" />
+				<field column="text1" name="text1" stripHTML="true" regex="(\s){2,}" replaceWith=" "/>
+				<field column="text2" name="text2" stripHTML="true" />
+				<field column="propiedades" name="propiedades" stripHTML="true" />
+						
+				<field column="aux_titulo" name="aux_titulo" stripHTML="true" />
+				<field column="aux_text1" name="aux_text1" stripHTML="true" regex="(\s){2,}" replaceWith=" "/>
+				<field column="aux_text2" name="aux_text2" stripHTML="true" />
+				<field column="aux_propiedades" name="aux_propiedades" stripHTML="true" />
+		</entity>						
+         
+        <entity name="product"
+				dataSource="ds-2"
+				pk="product_id"
+     			query="SELECT *, 'product' AS type FROM vi_search WHERE profile_id = 'zh'"
+                deltaQuery="SELECT *, 'product' AS type FROM vi_search WHERE profile_id = 'zh'">
+        </entity>
+        
+    </document>
+</dataConfig>
